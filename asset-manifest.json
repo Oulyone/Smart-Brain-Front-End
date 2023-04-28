@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Smart-Srain-Front-End/static/css/main.082ec585.css",
+    "main.js": "/Smart-Srain-Front-End/static/js/main.831ad76f.js",
+    "static/js/787.b13db7ee.chunk.js": "/Smart-Srain-Front-End/static/js/787.b13db7ee.chunk.js",
+    "static/media/innovation.png": "/Smart-Srain-Front-End/static/media/innovation.bbd65ac2d96bf1764301.png",
+    "index.html": "/Smart-Srain-Front-End/index.html",
+    "main.082ec585.css.map": "/Smart-Srain-Front-End/static/css/main.082ec585.css.map",
+    "main.831ad76f.js.map": "/Smart-Srain-Front-End/static/js/main.831ad76f.js.map",
+    "787.b13db7ee.chunk.js.map": "/Smart-Srain-Front-End/static/js/787.b13db7ee.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.082ec585.css",
+    "static/js/main.831ad76f.js"
+  ]
+}
