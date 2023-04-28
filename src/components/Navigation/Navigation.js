@@ -1,7 +1,7 @@
 import React from 'react';
 
 const deleteAcc = (id, onRouteChange) => {
-    fetch("http://localhost:3000/delete", {
+    fetch("https://smart-brain-api-qha4.onrender.com/delete", {
         method: 'delete',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify({
