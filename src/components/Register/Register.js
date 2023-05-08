@@ -1,35 +1,42 @@
-import React, {Component} from 'react';
+import React, { useEffect, useState } from 'react';
 
-class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            name: ''
-        }
+function Register (props) {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         email: '',
+    //         password: '',
+    //         name: ''
+    //     }
+    // }
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+
+    const onNameChange = (event) => {
+        // this.setState({name: event.target.value})
+        setName(event.target.value);
     }
 
-    onNameChange = (event) => {
-        this.setState({name: event.target.value})
+    const onEmailChange = (event) => {
+        // this.setState({email: event.target.value})
+        setEmail(event.target.value);
     }
 
-    onEmailChange = (event) => {
-        this.setState({email: event.target.value})
+    const onPasswordChange = (event) => {
+        // this.setState({password: event.target.value})
+        setPassword(event.target.value);
     }
 
-    onPasswordChange = (event) => {
-        this.setState({password: event.target.value})
-    }
-
-    onSubmitSignIn = () => {
+    const onSubmitSignIn = () => {
         fetch('https://smart-brain-api-qha4.onrender.com/register', {
             method: 'post',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
-                name: this.state.name
+                email: email,
+                password: password,
+                name: name
             })
         })
             .then(response => response.json())
@@ -41,60 +48,71 @@ class Register extends Component {
                     alert(user)
                 }
             })
-        
     }
 
-    render() {
-        return(
-            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-                <main className="pa4 black-80">
-                    <div className="measure">
-                        <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                            <legend className="f1 fw6 ph0 mh0">Register</legend>
-                            <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
-                                <input 
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="email" 
-                                    name="name" 
-                                    id="name"
-                                    onChange={this.onNameChange}>
-                                </input>
-                            </div>
-                            <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                                <input 
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="email" 
-                                    name="email-address"  
-                                    id="email-address"
-                                    onChange={this.onEmailChange}>
-                                </input>
-                            </div>
-                            <div className="mv3">
-                                <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-                                <input 
-                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="password" 
-                                    name="password"  
-                                    id="password"
-                                    onChange={this.onPasswordChange}>
-                                </input>
-                            </div>
-                        </fieldset>
-                        <div className="">
+    useEffect(() => {
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                console.log("Enter key was pressed. Run your function.");
+                event.preventDefault();
+                onSubmitSignIn();
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+          document.removeEventListener("keydown", listener);
+        };
+      });
+    
+    return(
+        <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+            <main className="pa4 black-80">
+                <div className="measure">
+                    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                        <legend className="f1 fw6 ph0 mh0">Register</legend>
+                        <div className="mt3">
+                            <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                             <input 
-                                onClick={() => this.onSubmitSignIn('home')}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-                                type="submit" 
-                                value="Register">
+                                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                type="email" 
+                                name="name" 
+                                id="name"
+                                onChange={onNameChange}>
                             </input>
                         </div>
+                        <div className="mt3">
+                            <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                            <input 
+                                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                type="email" 
+                                name="email-address"  
+                                id="email-address"
+                                onChange={onEmailChange}>
+                            </input>
+                        </div>
+                        <div className="mv3">
+                            <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                            <input 
+                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                type="password" 
+                                name="password"  
+                                id="password"
+                                onChange={onPasswordChange}>
+                            </input>
+                        </div>
+                    </fieldset>
+                    <div className="">
+                        <input 
+                            onClick={onSubmitSignIn}
+                            className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+                            type="submit" 
+                            value="Register">
+                        </input>
                     </div>
-                </main>
-            </article>
-        )
-    }
+                </div>
+            </main>
+        </article>
+    )
 }
 
 export default Register;

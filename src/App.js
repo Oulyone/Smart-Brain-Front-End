@@ -87,38 +87,44 @@ class App extends Component {
     this.setState({
       imageUrl: this.state.input
     })
-    
-    fetch("https://smart-brain-api-qha4.onrender.com/imageurl", {
-      method: 'post',
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify({
-        imageUrl: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(result => {
-        if(result) {
-          fetch("https://smart-brain-api-qha4.onrender.com/image", {
-            method: 'put',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({
-                id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              if(count !== 'User not found!') {
-                this.setState(Object.assign(this.state.user, { entries: count }));
-              }  
-            })
-            .catch(console.log)
-        }
-        this.displayFaceBox(this.calculateFaceLocation(result));
-        this.setState({
-          amount: result.outputs[0].data.regions.length
+
+    if(this.state.input === '') {
+      alert("Please give me image url");
+    } else {
+      fetch("https://smart-brain-api-qha4.onrender.com/imageurl", {
+        method: 'post',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({
+          imageUrl: this.state.input
         })
       })
-      .catch(error => console.log('error', error));
+        .then(response => response.json())
+        .then(result => {
+          if(result) {
+            fetch("https://smart-brain-api-qha4.onrender.com/image", {
+              method: 'put',
+              headers: {'Content-type': 'application/json'},
+              body: JSON.stringify({
+                  id: this.state.user.id
+              })
+            })
+              .then(response => response.json())
+              .then(count => {
+                if(count !== 'User not found!') {
+                  this.setState(Object.assign(this.state.user, { entries: count }));
+                }  
+              })
+              .catch(console.log)
+          }
+          this.displayFaceBox(this.calculateFaceLocation(result));
+          this.setState({
+            amount: result.outputs[0].data.regions.length
+          })
+        })
+        .catch(error => console.log('error', error));
+    }
+    
+    
     
   }
   
